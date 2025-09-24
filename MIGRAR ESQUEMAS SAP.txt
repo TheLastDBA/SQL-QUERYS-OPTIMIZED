@@ -1,0 +1,205 @@
+
+
+
+USE [TGQ]
+GO
+ALTER AUTHORIZATION ON SCHEMA::[tgp] TO [db_owner]
+GO
+
+USE [TGQ]
+GO
+
+/****** Object:  Schema [tgq]    Script Date: 10/09/2025 4:08:22 p. m. ******/
+CREATE SCHEMA [tgq]
+GO
+
+
+
+USE [TGQ]
+GO
+
+/****** Object:  User [tgp]    Script Date: 10/09/2025 4:06:05 p. m. ******/
+DROP USER [tgp]
+GO
+
+USE [TGQ]
+GO
+
+/****** Object:  User [tgq]    Script Date: 10/09/2025 4:06:18 p. m. ******/
+CREATE USER [tgq] FOR LOGIN [tgq] WITH DEFAULT_SCHEMA=[tgq]
+GO
+
+USE [TGQ]
+GO
+
+/****** Object:  User [ESAP]    Script Date: 10/09/2025 4:06:41 p. m. ******/
+DROP USER [ESAP]
+GO
+
+
+
+
+
+
+
+CREATE PROCEDURE migrar_base_de_datos_by_ddr_format As 
+
+DECLARE @COUNT INT = 0;
+DECLARE @ERRORS NVARCHAR(MAX);
+DECLARE @MULTIPLICADOR INT = 0;
+DECLARE @SQL NVARCHAR(MAX);
+DECLARE @ITERA INT = 0;
+DECLARE @MENSAJE NVARCHAR(10) = '';
+
+
+BEGIN
+begin try
+
+PRINT 'CREANDO TABLA PARA GUARDAR DDLs';
+CREATE TABLE #executables (id int identity primary key, exec_sql Nvarchar(max)); 
+
+PRINT 'INSERTANDO TODOS LOS DDLs EN TABLA EJECUTABLE';
+INSERT INTO #executables(exec_sql)
+select 
+  CONCAT(
+    'ALTER SCHEMA tgq transfer tgp.[', 
+    name, '];'
+  ) as exec_sql 
+from 
+  sys.tables 
+where 
+  schema_id =(
+    select 
+      schema_id 
+    from 
+      sys.schemas 
+    where 
+      name = 'tgp'
+  ) 
+UNION ALL 
+  -- ALTER SCHEMA EsquemaNuevo TRANSFER EsquemaActual.NombreTabla
+SELECT 
+  CONCAT(
+    'ALTER SCHEMA tgq transfer tgp.[', 
+    name, '];'
+  ) as exec_sql 
+FROM 
+  sys.procedures 
+WHERE 
+  schema_id = SCHEMA_ID('tgp') 
+UNION ALL 
+  -- Actualiza funciones
+SELECT 
+  CONCAT(
+    'ALTER SCHEMA tgq transfer tgp.[', 
+    name, '];'
+  ) as exec_sql 
+FROM 
+  sys.objects 
+WHERE 
+  schema_id = SCHEMA_ID('tgp') 
+  AND type IN ('FN', 'IF', 'TF', 'FS', 'FT') 
+UNION ALL 
+select 
+  CONCAT(
+    'ALTER SCHEMA tgq transfer tgp.[', 
+    name, '];'
+  ) as exec_sql 
+from 
+  sys.views 
+where 
+  schema_id = SCHEMA_ID('tgp');
+
+
+
+PRINT 'INSTANCIANDO VARIABLES POST WHILE';
+SET 
+  @COUNT = 0;
+SET 
+  @MULTIPLICADOR = 1000;
+set 
+  @ITERA = 0;
+SET 
+  @MENSAJE = '';
+
+PRINT 'PRIMERA EJECUCION DE DDLs';
+
+SET 
+  @SQL = (
+    SELECT 
+      STRING_AGG(exec_sql, ' ') as executables 
+    from 
+      #executables order by id offset (@ITERA)
+      rows fetch next (@MULTIPLICADOR) rows only
+  );
+EXECUTE sp_executesql @SQL;
+
+
+PRINT 'ENTRANDO AL WHILE';
+
+
+WHILE @COUNT IS NOT NULL BEGIN 
+SET 
+  @ITERA = @ITERA + 1000;
+SET 
+  @SQL = (
+    SELECT 
+      STRING_AGG(exec_sql, ' ') as executables 
+    from 
+      #executables order by id offset @ITERA rows fetch next @MULTIPLICADOR  rows only); 
+
+    SET 
+      @MENSAJE = @ITERA;
+
+
+PRINT ' CANTIDAD DE TABLAS MIGRADAS: ' + @MENSAJE;
+
+EXECUTE sp_executesql @SQL;
+
+
+IF @SQL IS NULL BEGIN 
+SET 
+  @COUNT = NULL;
+PRINT 'FIN DE WHILE';
+END;
+
+
+
+END;
+
+
+
+PRINT 'ESQUEMAS MIGRADOS CON EXITO';
+PRINT 'BORRANDO TEMPORALES';
+DROP 
+  TABLE #executables; 
+  end try begin catch 
+SET 
+  @ERRORS = (
+    SELECT 
+      CONCAT(
+        ERROR_NUMBER(), 
+        ' AS NumeroError |', 
+        ERROR_MESSAGE(), 
+        'AS MensajeError |', 
+        ERROR_SEVERITY(), 
+        'AS Severidad |', 
+        ERROR_STATE(), 
+        'AS Estado |', 
+        ERROR_LINE(), 
+        'AS Linea |', 
+        ERROR_PROCEDURE(), 
+        'AS Procedimiento | Error time: ', 
+        CURRENT_TIMESTAMP
+      )
+  );
+INSERT INTO [master].[dbo].[log_migracionesTGP](evento) 
+values 
+  (@ERRORS);
+PRINT @ERRORS;
+THROW;
+END CATCH;
+END;
+
+
+
