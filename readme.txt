@@ -1,1 +1,1 @@
-#Este es el repositorio inicial de python para data engineers por TheLastDBA and the experience.
+#This Repo is my first attemp to become a data engineer and also demostrate mi abilitys as a DBA.
