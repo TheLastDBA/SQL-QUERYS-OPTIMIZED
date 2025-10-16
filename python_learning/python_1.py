@@ -1,5 +1,7 @@
 import random as ran
 import math as ma
+import os 
+from copy import deepcopy as deeper ,copy as copiar 
 
 # #this is a comment in my python language, so this line would be ignored by the py engine
 
@@ -521,31 +523,534 @@ import math as ma
 
 
 #SOME CONTROL FLOW 
-print(bool(None))
-print(bool(''))
-print(bool('true'))
+# print(bool(None))
+# print(bool(''))
+# print(bool('true'))
 
-lista_vacia = [False,False]
-lista_llena = ["llena",'1','2']
-lista_incompleta = ["1",'uncommitted',False]
+# lista_vacia = [False,False]
+# lista_llena = ["llena",'1','2']
+# lista_incompleta = ["1",'uncommitted',False]
 
-print(all(lista_vacia))
-print(all(lista_llena))
-print(all(lista_incompleta))
-
-
-print(any(lista_vacia))
-print(any(lista_llena))
-print(any(lista_incompleta))
-
-a = 10
-b = 10.1
-c = 'gaga'
-print(c.count('a'))
-
-print(isinstance(a,(str,int,float)), isinstance(c,(str)),isinstance(b,int))
+# print(all(lista_vacia))
+# print(all(lista_llena))
+# print(all(lista_incompleta))
 
 
+# print(any(lista_vacia))
+# print(any(lista_llena))
+# print(any(lista_incompleta))
+
+# a = 10
+# b = 10.1
+# c = 'gaga'
+# print(c.count('a'))
+
+
+# print(isinstance(a,(str,int,float)), isinstance(c,(str)),isinstance(b,int))
+
+
+# Crea un programa en Python que:
+
+# Le pida al usuario que ingrese un nombre.
+
+# Verifique si ese nombre está en una lista de usuarios permitidos usando in.
+
+# Si el nombre está, verifique con is si la variable apunta exactamente al mismo objeto en memoria que un valor cacheado.
+
+# Devuelva mensajes claros para cada caso.
+
+# nombre = input("ingresa un nombre")
+# lista_users = ["Didier","Roberto","Sharo","Anuel","Daddy yanke","Chris Daes"]
+
+# if nombre in lista_users:
+#     cacheo= nombre is lista_users 
+#     print(f'El usuario {nombre} pertenece a la lista, la variable tiene el mismo id? {cacheo}')
+# else:
+#     print('No existe en la lista')
+
+# if bool(nombre) == True:
+#     print(nombre)
+# elif bool(nombre) != True:
+#     print(lista_users)
+# elif True == True:
+#     print(1)
+# else:
+#     print('nunca llegara aqui')
+
+
+# # -------------------
+# # 00:00 - Intro
+# print("Bienvenido al sistema de acceso educativo 🏫")
+
+# # -------------------
+# # 01:16 - If Statement
+# usuario = input("Ingresa tu nombre de usuario: ")
+
+# # -------------------
+# # 05:56 - Python Indentation
+# if usuario == "admin":
+#     print("Hola Administrador 👑")   # buena indentación
+# else:
+#     print(f"Hola {usuario} 👋")
+
+# # -------------------
+# # 10:25 - Else Statement
+# contraseña = input("Ingresa tu contraseña: ")
+
+# if contraseña == "1234":
+#     print("Contraseña correcta ✅")
+# else:
+#     print("Contraseña incorrecta ❌")
+
+# # -------------------
+# # 14:31 - Elif Statement
+# edad = int(input("Ingresa tu edad: "))
+
+# if edad < 12:
+#     print("Eres un niño 👦")
+# elif edad < 18:
+#     print("Eres un adolescente 👩‍🎓")
+# elif edad < 60:
+#     print("Eres un adulto 👨‍💼")
+# else:
+#     print("Eres un adulto mayor 👴")
+
+# # -------------------
+# # 21:06 - Multi Elif
+# nota = float(input("Ingresa tu nota final (0-5): "))
+
+# if nota == 5:
+#     print("Excelente 🌟")
+# elif nota >= 4:
+#     print("Muy bien 👏")
+# elif nota >= 3:
+#     print("Aprobaste 👍")
+# elif nota >= 2:
+#     print("Reprobaste, esfuerzate más 😥")
+# else:
+#     print("Nota inválida ❌")
+
+# # -------------------
+# # 25:32 - Nested If (If anidado)
+# if usuario == "admin":
+#     if contraseña == "1234":
+#         print("Acceso completo al sistema 🔓")
+#     else:
+#         print("Contraseña de admin incorrecta ❌")
+# else:
+#     if edad >= 18:
+#         print("Acceso de estudiante autorizado ✅")
+#     else:
+#         print("Acceso restringido 🚫")
+
+# # -------------------
+# # 30:27 - Logical Operators
+# if (edad >= 18 and nota >= 3) or usuario == "admin":
+#     print("Tienes acceso a la plataforma educativa 📚")
+# else:
+#     print("No cumples con los requisitos ❌")
+
+# # -------------------
+# # 35:15 - Independent If
+# # Estos no dependen entre sí
+# if edad >= 18:
+#     print("Eres mayor de edad ✔")
+# if nota >= 3:
+#     print("Has aprobado ✔")
+# if usuario == "admin":
+#     print("Eres el administrador ✔")
+
+# # -------------------
+# # 38:06 - #1 Python Challenge
+# # Reto: Crear un validador de correos
+# correo = input("Ingresa tu correo electrónico: ")
+
+# if "@" in correo and "." in correo:
+#     print("Correo válido ✅")
+# else:
+#     print("Correo inválido ❌")
+
+# # -------------------
+# # 50:43 - #2 Python Challenge
+# # Reto: Juego simple "Adivina el número"
+# import random
+# numero_secreto = random.randint(1, 10)
+# intento = int(input("Adivina el número entre 1 y 10: "))
+
+# if intento == numero_secreto:
+#     print("¡Adivinaste! 🎉")
+# elif intento > numero_secreto:
+#     print("El número secreto es menor ⬇")
+# else:
+#     print("El número secreto es mayor ⬆")
+
+
+# Haz un programa que muestre un menú de opciones al usuario.
+# El usuario debe poder elegir:
+
+# Ver saldo
+
+# Depositar dinero
+
+# Retirar dinero
+
+# Salir
+
+# Si la opción no existe, debe mostrar un mensaje de error.
+
+# print("""Bienvenido, por favor escoge la opcion que deseas:\n 1 - Ver saldo \n 2 - Depositar dinero \n 3 - Retirar dinero \n 4 - Salir""")
+# solicitud = int(input("Digita el numero de tu interes: "))
+
+# def menu_options_user(input_solicitud):
+    
+#     match input_solicitud:
+#         case n if n== 1:
+#             print("Tu saldo es de $10000 USD / MONTH")
+#         case n if n==2: 
+#             print("Deposita tu dinero en caja")
+#         case h if h==3: 
+#             print("Retira tu monto en caja")
+#         case 4: 
+#             print("Salir")
+#         case _:
+#             print("Error")
+
+# print(menu_options_user(solicitud))
+
+
+
+# imprimir la tabla de multiplicar de un número ingresado por el usuario. Tambien dar opcion de escoger numeros a multiplicar 
+
+# var_multiplicar = int(input('Digita la tabla  de multiplicar que quieres ver'))
+# multiplos = []
+
+
+# def obtener_tabla_de_multiplicar(tabla_x):
+#     while True:
+#         ingest = int(input('llena tu lista de ingest'))
+#         multiplos.append(ingest)
+#         if ingest == 00:
+#             break
+    
+#     for i in multiplos:
+#         print(f'{tabla_x} x {i} = ',tabla_x*i)
+#     return 'fin'
+
+# list = []
+
+# for i in range(1000):
+    
+#     list.append(i)
+
+# for i in list:
+#     n = 1
+
+#     print(i)
+
+
+# precios = [100, 200, 300]
+
+# for precio in precios:
+#     precio = precio - (precio * 0.188)
+#     print(precio)
+
+# #PRINT LEFT ALIGNED STARS WITH 6 ROWS 
+
+# for i in range(7):
+#     print('*'*i)
+
+# for numero in range(1, 6):
+#     if numero == 3:
+#         print("Saltando el número 3...")
+#         continue
+#     print("Número:", numero)
+
+
+# error = ''
+
+# while error != '':
+        
+#     match error:
+#         case n if n == 'h':
+#             print('hello')
+#         case n if n == error:
+#             error = ''
+#             print(error)
+
+#             continue
+#         case n if n == 'mensaje error':
+#             print('fin')
+#             error = 'fin'
+
+
+# # programa que tenga una lista de dias y que ignore los fines de semana 
+
+# semana =['Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo']
+
+# for i in semana: 
+#     if i in('Sabado','Domingo'):
+#         print('Skiping')
+#         continue
+#     print(i)
+
+
+# # Hacer un programa que busque un número en una lista.
+# # Si lo encuentra, imprime su posición.
+# # Si no lo encuentra, el bloque else debe indicar que no está.
+
+
+# lista = [1,2,3,4,5,10000]
+# count=0
+# values = int(input('insert'))
+# for i in lista:
+#     count=count+1
+#     if i == values:
+#         print('Numero encontrado en posicion:', count)
+#         break
+# else:
+#     print('el numero no se puedo encontrar, no existe dentro de la lista')
+
+
+
+
+# hola = ['1','2','3','4']
+# mundo = ['7','6']
+
+
+# for i in hola:
+#     for x in mundo:
+#         print(f'[{i},{x}]')
+
+
+
+# Ejercicio 1 Nested loops: Imprimir tablas de multiplicar hasta el 12
+
+# for i in range(1,13): 
+#     print('\n###################################### \n','Imprimiendo tabla del: ',i,'\n###################################### \n')
+#     for multiplicar in range(1,11):
+#         print(f'{i} x {multiplicar} = ',i*multiplicar)
+
+
+
+
+# Crear while llop que permita al usuario finalizarlo con un yes, pero si excede los 3 intentos quedara out con 3 strikes
+# strike = 0
+# while strike < 3:
+#     response = str(input('Are you agree? [yes/no]: '))
+#     if response.lower() == 'yes':
+#         print('Excelent, we are currently at the same page.')
+#         break 
+#     strike = strike +1
+# else:
+#     print('You are out: 3 strikes')
+
+#lista = [1,2,3,4,5,6]
+#
+# print(lista,' Lista inicial')
+
+
+# def invertir_lista(lista):
+
+#     lista_alreves=[]
+#     position =0
+
+#     for i in lista:
+#         position = position -1
+#         lista_alreves.append(lista[position])
+#     else:
+
+#         return print(lista_alreves,' Lista final')
+
+
+# print(lista.insert(10000000000,100))
+# print(invertir_lista(lista))    
+# print(obtener_tabla_de_multiplicar(var_multiplicar))
+
+
+
+
+# lista=[[1,2,3],[4,5,6],[7,8,9],[10,11,12]]
+
+# print(lista[-1][1])
+
+
+# carro=[['rojo','24000','colombus'],['rojazo','29000','colombusi']]
+
+# color_carro,precio_carro,ciudad_de_compra_carro = carro[1]
+# color_carro, _,_ = carro[0]
+# print()
+
+# ultimo = carro[0][-1]
+
+# print(ultimo)
+
+# print('[',color_carro,precio_carro,ciudad_de_compra_carro,']')
+
+# list = [[]]
+
+# for i in range(100):
+
+#     list.append(ran.randint(100,1000))
+# else:
+#     print(list)
+
+# nombres = ["Ana", "Ana","Luis", "Pedro", "María", "Sofía"]
+
+# print(nombres.count('Ana'), ' ', nombres.index('Ana'))
+
+# primer, segundo, _, *resto = nombres
+
+# print(primer,segundo,resto)
+
+
+
+
+
+
+
+# Imagina que tienes una lista con los nombres de los usuarios registrados en una aplicación:
+
+# usuarios = ["ana", "pedro", "maria", "juan", "pedro", "sofia"]
+
+#  Tu reto:
+
+# Crea una función llamada analizar_usuario(nombre) que haga lo siguiente:
+
+# Verifique si el nombre está en la lista (in operator).
+
+# Si no está, imprime "El usuario no existe."
+
+# Si sí está, continúa al siguiente paso.
+
+# Muestre cuántas veces aparece el nombre (count).
+
+# Muestre el índice de la primera aparición (index).
+
+# Verifique si todos los caracteres del nombre son letras (all() + comprensión de lista + .isalpha()).
+
+# Verifique si alguno de los caracteres es mayúscula (any() + .isupper()).
+
+# Comprueba si el nombre encontrado es el mismo objeto que el que pasaste como parámetro (usa is y comenta el resultado).
+
+
+
+# def analizar_usuarios(nombre):
+#     usuarios = ["ana", "pedro", "maria", "juan", "pedro", "sofia"]
+#     nombre = nombre.lower()
+    
+#     if nombre in usuarios: # Verifique si el nombre está en la lista (in operator).
+
+#         validator_nombre_en_lista = True
+#         indice = usuarios.index(nombre)
+#     else:
+#         validator_nombre_en_lista=False
+#         return print('El usuario no existe: validacion = ', validator_nombre_en_lista)
+#     cantidad_nombre_en_lista = usuarios.count(nombre)
+#     indice_primera_posicion_en_lista = usuarios.index(nombre)
+#     verificar_caracteres_nombre = nombre.isalpha()
+#     verificar_caracteres_mayusculas = any([verificar.isupper() for verificar in nombre])
+#     validar_is_objeto= nombre is usuarios[indice]
+    
+#     return f"""# Verifique si el nombre está en la lista (in operator) = {validator_nombre_en_lista}
+
+# # Si no está, imprime "El usuario no existe."
+
+# # Si sí está, continúa al siguiente paso.
+
+# # Muestre cuántas veces aparece el nombre (count). = {cantidad_nombre_en_lista}
+
+# # Muestre el índice de la primera aparición (index). = {indice_primera_posicion_en_lista}
+
+# # Verifique si todos los caracteres del nombre son letras (all() + comprensión de lista + .isalpha()). = {verificar_caracteres_nombre}
+
+# # Verifique si alguno de los caracteres es mayúscula (any() + .isupper()). = {verificar_caracteres_mayusculas}
+
+# # Comprueba si el nombre encontrado es el mismo objeto que el que pasaste como parámetro (usa is y comenta el resultado) = {validar_is_objeto}"""
+
+# print(analizar_usuarios("sofia"))
+        
+    
+
+
+#DADA UNA LISTA ELIMINAR TODOS LOS NUMEROS IMPARES, insertar un numero impar al final y al principio, y por ultimo vacias la lista 
+
+# #print(25973 % 2 )
+# lista = []
+# lista_impar = []
+
+# for item in range(100000):
+#     lista.append(ran.randint(1,100000))
+
+
+
+
+
+# position = 0
+# impares = 0
+# for x in lista:
+    
+#     if  (x % 2) == 0:
+#         lista[position]= x
+#     else:
+#         lista_impar.append(x)
+#         deleted = lista.pop(position)
+#         print('Eliminado elemento en posicion ',position,' deleted: ',deleted)
+#         impares = impares +1
+#     position = position + 1
+# else:
+    
+#     lista.insert(-1,3)
+#     lista.insert(-2,3)
+#     lista.pop(-2)
+#     lista.pop(-1)
+#     print(lista, 'Con una cantidad de impares de ', impares, 'validacion:')
+#     impares = 0
+
+#     for i in lista_impar:
+#         i = (i %2)
+#         lista_impar[impares] = i
+#         impares = impares +1
+#     else:
+        
+#         print('valores iguales a 0: ',lista_impar.count(0), 'valores iguales a 1: ', lista_impar.count(1))
+#         lista.clear()
+#         lista_impar.clear()
+
+
+# lista_unordered = []
+
+# for i in range(10):
+#     lista_unordered.append(ran.randint(1,100))
+# lista_unordered.sort(reverse=True)
+# copy_list = copiar(lista_unordered)
+# copy_list = sorted(copy_list, reverse=False)
+# print(f'lista desordenada {lista_unordered} y lista ordenada: ', copy_list)
+
+
+
+
+from conexion import crear_conexion
+
+with crear_conexion() as conn:
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM tecnososft.detalle_pedido;")
+    for fila in cursor.fetchall():
+        print(fila)
+
+
+
+
+
+
+#Ordenamiento en python sort() sorted() reverse() 
+
+
+
+
+
+
+
+        
 
 
 
@@ -559,11 +1064,22 @@ print(isinstance(a,(str,int,float)), isinstance(c,(str)),isinstance(b,int))
 
 
 
-# global variables dumder for main method
-# if __name__ == "__main__":
-#     ...
 
-# print(python_method('DIDIER'),'con una suma de', print_suma(20,4), 'años de edad;', "Double quotes here ")
+
+
+
+
+
+
+
+
+
+
+# # global variables dumder for main method
+# # if __name__ == "__main__":
+# #     ...
+
+# # print(python_method('DIDIER'),'con una suma de', print_suma(20,4), 'años de edad;', "Double quotes here ")
 
 
 
