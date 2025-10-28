@@ -2,6 +2,14 @@ import random as ran
 import math as ma
 import os 
 from copy import deepcopy as deeper ,copy as copiar 
+import keyboard
+from clases import prestamo, Coche
+
+morgate_class = prestamo('100.000.000',8,30,'Didier Acuña')
+usuario1 = morgate_class.usuario = 'Juana de Arcos'
+
+print(morgate_class.print_solicitud_prestamo('Banamex'), usuario1)
+
 
 # #this is a comment in my python language, so this line would be ignored by the py engine
 
@@ -1029,13 +1037,106 @@ from copy import deepcopy as deeper ,copy as copiar
 
 
 
-from conexion import crear_conexion
 
-with crear_conexion() as conn:
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM tecnososft.detalle_pedido;")
-    for fila in cursor.fetchall():
-        print(fila)
+
+# DICCIONARIOS
+
+# ano_2024: dict = {0:1000,1:2000,2:3000,3:5000,4:{'casa':'cuarto'}}
+# dictionari_sizes: dict = {'cotton':['S','M'],'NILON':['X','XL']}
+
+
+
+
+# i = 0
+# result = ''
+# while True:
+#     result +=f'Intento numero {i} ' +  str(ano_2024.pop(i))
+    
+#     i+=1
+#     if len(ano_2024) == 1:
+#         break
+
+# print(result)
+
+# print(ano_2024.items(),ano_2024.keys(),ano_2024.get(4),ano_2024.pop(4))
+
+# dictionary = {'PRIMERO A':{'DIDIER','JUAN','TRIXIE'}, 'SEGUNDO B':{'ROXY','LUISIANA','COLUMBUS'}}
+# print(dictionary.keys(),dictionary.get('SEGUNDO B'))
+
+# print(ano_2024.get(44))
+# ano_2024.update(0:1001)
+# ano_2024.setdefault(44,'New value')
+# print(ano_2024.get(0))
+
+# for k,v in ano_2024.items():
+#     print(k,v)
+
+
+
+
+# variable = ''
+#new_dic: dict = {1:{'Hola':1,'hello':2},2:'Mundo', 3:'Soy NAME'}
+
+# changer_dictionary: dict = {3:',Soy Didier.'}
+# new_dic.update(changer_dictionary)
+# # changer_dictionary = {4:new_dic.items()}
+# # new_dic.update(changer_dictionary)
+# new_dic |= {5:'Fin'}
+
+
+
+# print(new_dic.items())
+
+# for key,value in new_dic.items():
+#     variable = variable + value
+
+# print(variable)
+
+
+
+# 1. Agregar estudiante
+# 2. Mostrar todos los estudiantes
+# 3. Consultar notas de un estudiante
+# 4. Calcular promedio de un estudiante, eliminarlo
+# 5. Salir
+
+
+
+
+# def solucion_diccionario_exercise(estudainte):
+#     diccionario: dict ={
+#     "Juan": {"Matemáticas": 4.5, "Inglés": 3.8, "Ciencias": 4.0},
+#     "Ana": {"Matemáticas": 3.7, "Inglés": 4.2, "Ciencias": 4.1}
+# }
+#     i = 0
+#     suma=0
+#     add_student = {"Anamaria": {"Matemáticas": 3.7, "Inglés": 4.2, "Ciencias": 4.1}}
+
+#     diccionario |=add_student #agregar estudiante
+#     for v in diccionario[estudainte].values():
+#         i += 1
+#         suma += v
+    
+#     diccionario.pop(estudainte)
+    
+#     return ('Mostrar a todos los estudiantes: ',diccionario.keys(), ' Notas de un estudiante es especifico: ', diccionario.get(estudainte), 'El promedio del estudiante: ', estudainte,' es ',(suma/i))
+
+# print(solucion_diccionario_exercise('Anamaria'))
+
+# diccionarios: dict = {'Nombre':{1:{2:'Hola',3:'chao'}},'Nombre2':{1:{2:'Hola',3:'chao'}}}
+
+# print(diccionarios['Nombre'][1].pop(3))
+
+
+
+
+
+    
+
+
+
+
+
 
 
 

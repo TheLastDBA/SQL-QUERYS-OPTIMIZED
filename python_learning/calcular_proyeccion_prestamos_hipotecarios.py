@@ -13,14 +13,29 @@ cnx_prestamo.execute('select * from catalogo.acciones;')
 
 resultado = cnx_prestamo.fetchall()
 resultado_lista_padre = []
+resultado_lista_hijo = []
 
-for fila in resultado:
-    resultado_lista_hijo = []
-    for valor in fila:
-        resultado_lista_hijo.append(valor)
+
+print(resultado)
+
+
+for i in range(len(resultado)):
+    print(i)
+    for x in resultado[i]:
+        resultado_lista_hijo.append(x)
     resultado_lista_padre.append(resultado_lista_hijo)
+    print(resultado_lista_padre)
+        
 
-print(resultado_lista_padre)
+
+
+# for fila in resultado:
+#     resultado_lista_hijo = []
+#     for valor in fila:
+#         resultado_lista_hijo.append(valor)
+#     resultado_lista_padre.append(resultado_lista_hijo)
+
+# print(resultado_lista_padre)
 
    
     
