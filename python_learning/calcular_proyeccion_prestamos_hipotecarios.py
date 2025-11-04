@@ -8,6 +8,7 @@ import math
 from pyspark.sql import SparkSession
 import conexiones
 
+
 cnx_prestamo = conexiones.conexion_tecnosoft.cursor()
 cnx_prestamo.execute('select * from catalogo.acciones;')
 
