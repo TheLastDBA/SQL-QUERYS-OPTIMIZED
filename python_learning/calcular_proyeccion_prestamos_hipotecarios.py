@@ -9,23 +9,23 @@ from pyspark.sql import SparkSession
 import conexiones
 
 
-cnx_prestamo = conexiones.conexion_tecnosoft.cursor()
-cnx_prestamo.execute('select * from catalogo.acciones;')
+# cnx_prestamo = conexiones.conexion_tecnosoft.cursor()
+# cnx_prestamo.execute('select * from catalogo.acciones;')
 
-resultado = cnx_prestamo.fetchall()
-resultado_lista_padre = []
-resultado_lista_hijo = []
-
-
-print(resultado)
+# resultado = cnx_prestamo.fetchall()
+# resultado_lista_padre = []
+# resultado_lista_hijo = []
 
 
-for i in range(len(resultado)):
-    print(i)
-    for x in resultado[i]:
-        resultado_lista_hijo.append(x)
-    resultado_lista_padre.append(resultado_lista_hijo)
-    print(resultado_lista_padre)
+# print(resultado)
+
+
+# for i in range(len(resultado)):
+#     print(i)
+#     for x in resultado[i]:
+#         resultado_lista_hijo.append(x)
+#     resultado_lista_padre.append(resultado_lista_hijo)
+#     print(resultado_lista_padre)
         
 
 
@@ -75,13 +75,11 @@ def calcular_proyeccion_prestamo(monto_x,tasa_x,numero_años_x,ver_proyeccion):
         return f'Fin'    
 
 
+print(calcular_proyeccion_prestamo(85000000,10,30,False))
 
 
 
 
-
-
-# print(calcular_proyeccion_prestamo(85000000,8,30,True))
 
 
 
