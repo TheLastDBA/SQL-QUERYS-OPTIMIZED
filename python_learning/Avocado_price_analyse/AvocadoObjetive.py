@@ -21,6 +21,7 @@ try:
     trm_df=trm_df.rename(columns={'VALOR':'Precio', 'VIGENCIADESDE':'Date', 'VIGENCIAHASTA':'Dia cierre'})
     trm_df['Date'] = pandas.to_datetime(trm_df['Date'],format='mixed')
     trm_df['Dia cierre'] = pandas.to_datetime(trm_df['Dia cierre'],format='mixed')
+    #Comentario, pensando en realizar etls con pandas para proyectos pequeños,
     
 
     
@@ -78,6 +79,10 @@ try:
     df_prices_trm_avocado.to_excel(r'C:\Users\didier.acuna\git-repos\python_learning\Avocado_price_analyse\Avocado Reports Result\Avocado_Cop_Prices.xlsx',sheet_name='Full reports per cops')
     df_full_report = pandas.merge(avoacado_df,total_volume,how='inner',on='year')
     df_full_report.merge(albany_filter_df_groupby_yeartype,how='inner',on='year')
+
+
+    with pandas.ExcelWriter(r'C:\Users\didier.acuna\git-repos\python_learning\Avocado_price_analyse\Avocado Reports Result\Avocado_Cop_Prices.xlsx') as writer_report:
+        df_full_report.to_excel(writer_report,sheet_name='Full report page')
 
     with pandas.ExcelWriter(r"C:\Users\didier.acuna\git-repos\python_learning\Avocado_price_analyse\Avocado Reports Result\total_volume.xlsx",     mode="a",engine="openpyxl", if_sheet_exists="overlay") as writer:
         total_volumne_per_regionadnyear_df_excel = pandas.DataFrame(total_volumne_per_regionadnyear)
