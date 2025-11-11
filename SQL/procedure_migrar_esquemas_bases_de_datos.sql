@@ -2,13 +2,27 @@
 
   
 DECLARE @SQLs NVARCHAR(MAX); 
-SET @SQLs = '  USE TGQ 
+SET @SQLs = '  USE TGQ;
 execute  TGQ.dbo.[migrar_base_de_datos_by_ddr_format] ''TGQ''; ';
 
 
 EXECUTE sp_executesql @SQLs;
 
 
+
+USE [TGQ]
+GO
+CREATE SCHEMA [tgq] AUTHORIZATION [dbo]
+GO
+
+
+USE [TGQ]
+GO
+/****** Object:  StoredProcedure [dbo].[migrar_base_de_datos_by_ddr_format]    Script Date: 11/11/2025 11:48:23 a. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 
 ALTER PROCEDURE [dbo].[migrar_base_de_datos_by_ddr_format] @VALIDAR_EXISTENCIA_BD VARCHAR(30) As 
 
@@ -30,14 +44,12 @@ begin try
 IF EXISTS (select * from sys.databases where name = @VALIDAR_EXISTENCIA_BD) BEGIN
 PRINT 'Existencia valida.'; 
 
-PRINT 'SENDING TO  SIMPLE RECOVERY';
 EXECUTE AS LOGIN = 'didier.acuna';
-ALTER DATABASE [TGQ] SET  RECOVERY  SIMPLE;
-SET @ESQUEMA = 'USE [TGQ]
-GO
-CREATE SCHEMA [tgq] AUTHORIZATION [db_owner]
-GO
-';   
+--SET @ESQUEMA = 'USE [TGQ]
+--GO
+--CREATE SCHEMA [tgq] AUTHORIZATION [db_owner]
+--GO
+--';   
 
 EXECUTE sp_executesql @ESQUEMA;
 
@@ -168,23 +180,9 @@ END;
 END;
 
 
-PRINT 'ASIGNANDO PERMISOS DE USUARIOS.'
-ALTER AUTHORIZATION ON SCHEMA::[tgp] TO [db_owner];
-DROP USER [tgp]
-DROP USER [ESAP];
-CREATE USER [tgq] FOR LOGIN [tgq];
-ALTER ROLE [db_owner] ADD MEMBER [tgq];
-CREATE USER [tgp] FOR LOGIN [tgp];
-ALTER ROLE [db_owner] ADD MEMBER [tgp];
-CREATE USER [ESAP] FOR LOGIN [ESAP];
-ALTER ROLE [db_owner] ADD MEMBER [ESAP];
-PRINT 'ASIGNADO';
-
-
 
 PRINT 'ESQUEMAS MIGRADOS CON EXITO';
 PRINT 'BORRANDO TEMPORALES';
-PRINT 'BY: DIDIER ACUÑA '
 DROP 
   TABLE #executables; 
   end try begin catch 
