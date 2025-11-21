@@ -2,6 +2,8 @@ import pandas
 import matplotlib.pyplot as plotlib
 import os 
 import kagglehub
+from fastapi import FastAPI
+
 
 
 #path_to_trmfile = kagglehub.dataset_download("alonsocopete/trm-dolar-cop-colombia")
@@ -11,13 +13,31 @@ import kagglehub
 # tipos (“conventional” vs “organic”), encontrar tendencias y
 #  preparar los datos para análisis futuros en PySpark.
 
+######################################### README #############################################################################################################################
+# Este proyecto implementa un flujo completo de preparación, 
+# integración y análisis de datos utilizando pandas como herramienta base para la ingestión y 
+# transformación de información. El objetivo central es analizar la variación histórica del precio del aguacate en Estados Unidos y
+# relacionarla con el comportamiento diario de la TRM (USD → COP) para habilitar posteriores análisis en PySpark. 
+# Para ello, el pipeline carga datasets independientes desde archivos CSV, realiza limpieza y estandarización de tipos de datos,
+# combina las fuentes mediante una unión por fecha y genera nuevas métricas derivadas como “PricePerBags”. Posteriormente, 
+# se ejecutan procesos analíticos como agregaciones por región, año y tipo de producto, filtrado de series específicas y cálculo de promedios generales
+# . Finalmente, se generan reportes estructurados en formatos CSV y Excel que consolidan los precios, volúmenes y tendencias, 
+# simulando un flujo ETL típico orientado a proyectos de analítica avanzada y arquitectura de datos.
+# Dichos reportes posteriomente serian visualizados en Power BI por parte de nuestro equipo.
+######################################### README #############################################################################################################################
+
 try:
 
+    #PATHS VARIABLE
+    path_avocado_csv = r'C:\Users\didier.acuna\git-repos\python_learning\Avocado_price_analyse\Result\my_apps\avocado.csv'
+    path_trm_csv = r'C:\Users\didier.acuna\git-repos\python_learning\Avocado_price_analyse\Result\my_apps\TRM.csv'
     #Cargue y exploracion de datos
-    avoacado_df = pandas.read_csv(r'C:\Users\didier.acuna\git-repos\python_learning\data_sets\avocado.csv')
-    avoacado_df = avoacado_df#.head(10)
+    avoacado_df = pandas.read_csv(path_avocado_csv)
+    avoacado_df = avoacado_df.head(10)
+  
     #Cargue de precios usd / cop por dia
-    trm_df = pandas.read_csv(r'C:\Users\didier.acuna\git-repos\python_learning\data_sets\TRM.csv',index_col=False)
+    trm_df = pandas.read_csv(path_trm_csv,index_col=False)
+    trm_df = trm_df.head(10)
     trm_df=trm_df.rename(columns={'VALOR':'Precio', 'VIGENCIADESDE':'Date', 'VIGENCIAHASTA':'Dia cierre'})
     trm_df['Date'] = pandas.to_datetime(trm_df['Date'],format='mixed')
     trm_df['Dia cierre'] = pandas.to_datetime(trm_df['Dia cierre'],format='mixed')
@@ -74,17 +94,24 @@ try:
     #plotlib.show()
 
     #Albany result CSV
-    albany_filter_df.to_csv(r'C:\Users\didier.acuna\git-repos\python_learning\Avocado_price_analyse\Avocado Reports Result\Albany_result.csv',index='yes')
-    total_volume.to_excel(r'C:\Users\didier.acuna\git-repos\python_learning\Avocado_price_analyse\Avocado Reports Result\total_volume.xlsx',sheet_name='Volumen total por region X ano')
-    df_prices_trm_avocado.to_excel(r'C:\Users\didier.acuna\git-repos\python_learning\Avocado_price_analyse\Avocado Reports Result\Avocado_Cop_Prices.xlsx',sheet_name='Full reports per cops')
+    albany_filter_df.to_csv(r'C:\Users\didier.acuna\git-repos\python_learning\Avocado_price_analyse\Result\my_apps\results_myapps\Albany_result.csv',index='yes')
+    total_volume.to_excel(r'C:\Users\didier.acuna\git-repos\python_learning\Avocado_price_analyse\Result\my_apps\results_myapps\total_volume.xlsx',sheet_name='Volumen total por region X ano')
+    df_prices_trm_avocado.to_excel(r'C:\Users\didier.acuna\git-repos\python_learning\Avocado_price_analyse\Result\my_apps\results_myapps\Avocado_Cop_Prices.xlsx',sheet_name='Full reports per cops')
     df_full_report = pandas.merge(avoacado_df,total_volume,how='inner',on='year')
     df_full_report.merge(albany_filter_df_groupby_yeartype,how='inner',on='year')
 
 
-    with pandas.ExcelWriter(r'C:\Users\didier.acuna\git-repos\python_learning\Avocado_price_analyse\Avocado Reports Result\Avocado_Cop_Prices.xlsx') as writer_report:
+   
+
+
+
+
+
+
+    with pandas.ExcelWriter(r'C:\Users\didier.acuna\git-repos\python_learning\Avocado_price_analyse\Result\my_apps\results_myapps\Avocado_Cop_Prices.xlsx') as writer_report:
         df_full_report.to_excel(writer_report,sheet_name='Full report page')
 
-    with pandas.ExcelWriter(r"C:\Users\didier.acuna\git-repos\python_learning\Avocado_price_analyse\Avocado Reports Result\total_volume.xlsx",     mode="a",engine="openpyxl", if_sheet_exists="overlay") as writer:
+    with pandas.ExcelWriter(r"C:\Users\didier.acuna\git-repos\python_learning\Avocado_price_analyse\Result\my_apps\results_myapps\total_volume.xlsx",     mode="a",engine="openpyxl", if_sheet_exists="overlay") as writer:
         total_volumne_per_regionadnyear_df_excel = pandas.DataFrame(total_volumne_per_regionadnyear)
         total_volumne_per_regionadnyear_df_excel.to_excel(writer,sheet_name='Volumen total por año')
     
@@ -105,7 +132,7 @@ try:
     #print(avoacado_df.dtypes, '|', avoacado_df_info)
     #trm_df[trm_df['Date'] == '2015-01-04']
 
-    
+    df_prices_trm_avocado.head(10)
 
     print(df_prices_trm_avocado)
     

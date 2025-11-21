@@ -6,7 +6,7 @@
 
 import math
 from pyspark.sql import SparkSession
-import conexiones
+#import conexiones
 
 
 # cnx_prestamo = conexiones.conexion_tecnosoft.cursor()
@@ -75,7 +75,10 @@ def calcular_proyeccion_prestamo(monto_x,tasa_x,numero_años_x,ver_proyeccion):
         return f'Fin'    
 
 
-print(calcular_proyeccion_prestamo(85000000,10,30,False))
+#print(calcular_proyeccion_prestamo(33000000,16.33,6,True))
+
+
+print(calcular_proyeccion_prestamo(100000000,10,20,True))
 
 
 
