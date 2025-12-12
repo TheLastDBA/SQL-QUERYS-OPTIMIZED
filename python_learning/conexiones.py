@@ -1,5 +1,22 @@
 # import mysql.connector
 # from mysql.connector import Error
+import requests
+import json
+import clases_1
+
+url_api = r='https://api.chucknorris.io/jokes/random'
+get = requests.get(url=url_api)
+response_check_api = get.json()
+response_check_api.items()
+
+
+
+print(response_check_api.items())
+
+
+contar = clases_1.Counter(nombre="Didier va por", cantidad_numero=10000000)
+
+print(contar.contar())
 
 # try:
 #     conexion_tecnosoft = mysql.connector.connect(user = 'prueba',database='',host='',port='3306',password='')

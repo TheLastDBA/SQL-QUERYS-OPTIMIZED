@@ -1,0 +1,1 @@
+{"spark.app.name": "SparkDataBuilders", "spark.master": "local[*]", "spark.drive.memory": "2g", "spark.executor.memory": "2g"}

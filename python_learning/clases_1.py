@@ -25,3 +25,16 @@ class prestamo:
          return f'El usuario {self.usuario}, solicito un prestamo de {self.monto} a {self.cant_anos} años en banco: {banco_name}. la tasa valida para el es de: {self.tasa} y con un descuento de {self.descuento}%'
     
 
+
+class Counter: 
+     
+    def __init__(self,nombre: str,cantidad_numero: int):
+          self.cantidad_numero = cantidad_numero
+          self.nombre = nombre
+
+    def contar(self):
+        for i in range(self.cantidad_numero):
+             print(f'{self.nombre} va por {i}')
+        return 'fin'
+    
+

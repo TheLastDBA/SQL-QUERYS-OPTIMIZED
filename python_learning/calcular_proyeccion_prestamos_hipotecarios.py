@@ -5,7 +5,8 @@
 #: (C=P\frac{r(1+r)^{n}}{(1+r)^{n}-1}) formula del calculo de cuota mensual Inicial
 
 import math
-from pyspark.sql import SparkSession
+
+
 #import conexiones
 
 
@@ -78,9 +79,9 @@ def calcular_proyeccion_prestamo(monto_x,tasa_x,numero_años_x,ver_proyeccion):
 #print(calcular_proyeccion_prestamo(33000000,16.33,6,True))
 
 
-print(calcular_proyeccion_prestamo(100000000,10,20,True))
+print(calcular_proyeccion_prestamo(122000000,11,30,True))
 
-
+#11,253,018
 
 
 
