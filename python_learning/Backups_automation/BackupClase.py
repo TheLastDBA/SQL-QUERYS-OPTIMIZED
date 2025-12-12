@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 import subprocess
 import connections_db as db
-
+#comment
 load_dotenv(
     dotenv_path=r"C:\Users\didier.acuna\git-repos\python_learning\Backups_automation\.env")
 
