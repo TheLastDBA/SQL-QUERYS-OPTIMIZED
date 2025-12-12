@@ -66,12 +66,4 @@ class Backups_auto:
             print(error)
 
 
-backup = Backups_auto(ip_destination="10.1.132.74",
-                      port_destination="5433",
-                      login_user_destination="postgres",
-                      name_db_backup="aulaVirtual",
-                      password_destination="123456",
-                      destination_db_name="aulaVirtual_backup_2",
-                      server=60)
 
-print(backup.backup_maker())

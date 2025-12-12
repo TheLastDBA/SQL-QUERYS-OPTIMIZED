@@ -1,2 +1,124 @@
-*.pyc
+# ======================================
+# BASICS
+# ======================================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# ======================================
+# ENTORNOS VIRTUALES
+# ======================================
+.env
+.venv/
+venv/
+env/
+ENV/
+
+# ======================================
+# ARCHIVOS DE CONFIGURACIÓN SENSIBLES
+# ======================================
 *.env
+*.env.*
+*.key
+*.pem
+*.crt
+*.p12
+*.pfx
+
+# ======================================
+# LOGS Y ARCHIVOS TEMPORALES
+# ======================================
+*.log
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+
+# ======================================
+# BASE DE DATOS Y DUMPS
+# ======================================
+*.sqlite
+*.sqlite3
+*.db
+*.dump
+*.sql
+
+# ======================================
+# COMPILADOS / BUILD SYSTEMS
+# ======================================
+build/
+dist/
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+var/
+sdist/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# ======================================
+# JUPYTER NOTEBOOKS
+# ======================================
+.ipynb_checkpoints
+
+# ======================================
+# UNIT TEST / COVERAGE REPORTS
+# ======================================
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# ======================================
+# IDEs / EDITORES
+# ======================================
+
+# VSCode
+.vscode/
+.history/
+
+# JetBrains (PyCharm)
+.idea/
+*.iml
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+# Eclipse
+.project
+.pydevproject
+
+# ======================================
+# DOCKER
+# ======================================
+docker-compose.override.yml
+.env.docker
+.env.prod
+.env.dev
+
+# ======================================
+# SYSTEM / OS FILES
+# ======================================
+.DS_Store
+Thumbs.db
+
+# ======================================
+# OTHERS
+# ======================================
+*.retry
+
