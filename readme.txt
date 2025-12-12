@@ -1,5 +1,3 @@
+Hola, en este repo puedes encontras soluciones a tus problemas del dia a dia. De la misma forma puedes encontrar soluciones que he realizado en mi dia a dia, como DBA y como Data Engineer.
 
- Este repo es el resultado de practicas en python, esta linea fue creada desde python de esta forma: 
- 
- with open(r"C:\Users\didier.acuna\git-repos\readme.txt",'w+') as readme:
-        print( readme.write(Este repo es el resultado de practicas en python, esta linea fue creada desde python de esta forma: )) 
+Exitos.
