@@ -21,6 +21,8 @@ class Backups_auto:
         self.prd_password = os.getenv("prd_password")
         self.prd_user = os.getenv("prd_user")
         self.global_port = os.getenv("prd_port_synergy")
+        self.ip_origin_247 = os.getenv("prd_host_247")
+        self.port_247 = os.getenv("port_247")
         self.name_db_backup = name_db_backup
         self.ip_destination = ip_destination
         self.port_destination = port_destination
@@ -33,15 +35,22 @@ class Backups_auto:
         try:
             exists_db = db.exists_bd(self.name_db_backup, self.server)
             if exists_db == True:
+
                 pgpassconf = self.ip_destination+':' + self.port_destination+':' + \
                     '*'+':'+self.login_user_destination+':' + self.password_destination
+                
                 self.destination_db_name = self.destination_db_name.lower()
+
                 # Define Dir to allocate  backups
                 dir_backup = r'D:/Backups_devs/'+self.destination_db_name+'.dump'
+
 
                 # Validate server source (Company validation), if you want, ignore it and comment.
                 if (self.server == 60):
                     self.ip_origin_synergy = self.ip_origin_balancetecno
+                else: 
+                    self.ip_origin_synergy = self.ip_origin_247
+                    self.global_port = self.port_247
 
                 with open(r"C:\Users\didier.acuna\AppData\Roaming\postgresql\pgpass.conf", '+a') as pgpass_file:
                     pgpass_file.write('\n'+pgpassconf)
@@ -56,14 +65,23 @@ class Backups_auto:
                 subprocess.run(pgdump_command_synergy, check=True)
                 subprocess.run(psql_command, check=True)
                 subprocess.run(pg_restore_command, check=True)
-                return f"Production source DB: {self.name_db_backup} | From host:{self.ip_origin_synergy} \nFinal destination name: {self.destination_db_name} | To host: {self.ip_destination}"
+                return f"Production source DB: {self.name_db_backup} | From host:{self.ip_origin_synergy} \nFinal destination name: {self.destination_db_name} | To host: {self.ip_destination} \n Succed."
             else:
 
-                print( f"La base de datos no existe en el server designado, por favor validar origen de la base de datos.")
+                return f"La base de datos no existe en el server asignado, por favor validar origen de la base de datos."
 
             
         except Exception as error:
             print(error)
 
 
+backup = Backups_auto(ip_destination="10.1.132.74",
+                      port_destination="5433",
+                      login_user_destination="postgres",
+                      name_db_backup="aulaVirtual",
+                      password_destination="123456",
+                      destination_db_name="aulaVirtual_backup_4",
+                      server=60)
+
+print(backup.backup_maker())
 

@@ -20,10 +20,17 @@ try:
                                               host=getenv("ifrs_ip"),
                                               port=getenv("prd_port_synergy"))
 
+    postgres_connection_247 = psycopg2.connect(dbname="postgres",
+                                               user=getenv("prd_user"),
+                                               password=getenv("prd_247"),
+                                               host=getenv("prd_host_247"),
+                                               port=getenv("port_247"))
     # Validating 215 databases
     psql = postgres_connection_215.cursor()
 
     psql_60 = postgres_connection_60.cursor()
+
+    psql_247 = postgres_connection_247.cursor()
 
     def exists_bd(db_name: str, server: int):
 
@@ -32,31 +39,48 @@ try:
             psql.execute(
                 query=f"SELECT True FROM pg_database as db where db.datistemplate = False and db.datname = '{db_name}' limit 1;")
             exists = psql.fetchone()
-            exists = exists[0]
+            
 
-            if exists == (True):
+            if exists == None:
+                exists = False
 
                 pass
             else:
-                exists = False
+               exists = exists[0]
 
         else:
 
-            psql_60.execute(
-                query=f"SELECT True FROM pg_database as db where db.datistemplate = False and db.datname = '{db_name}' limit 1;")
-            exists = psql_60.fetchone()
-            exists = exists[0]
-            if exists == (True):
+            if server == 60:
 
-                pass
+                psql_60.execute(
+                    query=f"SELECT True FROM pg_database as db where db.datistemplate = False and db.datname = '{db_name}' limit 1;")
+                exists = psql_60.fetchone()
+                if exists == None:
+                    exists = False
+
+                    pass
+                else:
+                    exists = exists[0]
             else:
-                exists = False
+
+                if server == 247:
+
+                    psql_247.execute(
+                        query=f"SELECT True FROM pg_database as db where db.datistemplate = False and db.datname = '{db_name}' limit 1;")
+                    exists = psql_247.fetchone()
+                    if exists == None:
+                        exists = False
+
+                        pass
+                    else:
+                        exists = exists[0]
+                else:
+
+                    exists = 'No existe este servidor, por favor ingresa un servidor valido o verifica tu cadena de conexion;'
 
         return exists
 except Exception as error:
     print(error)
 
 
-
-print(exists_bd('aulaVirtual',60))
-
+#print(exists_bd('synergy2', 215))
