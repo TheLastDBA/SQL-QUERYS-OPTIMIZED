@@ -51,8 +51,10 @@ class Backups_auto:
                 if (self.server == 60):
                     self.ip_origin_synergy = self.ip_origin_balancetecno
                 else:
-                    self.ip_origin_synergy = self.ip_origin_247
-                    self.global_port = self.port_247
+                    if self.server == 247:
+
+                        self.ip_origin_synergy = self.ip_origin_247
+                        self.global_port = self.port_247
 
                 with open(r"C:\Users\didier.acuna\AppData\Roaming\postgresql\pgpass.conf", '+a') as pgpass_file:
                     pgpass_file.write('\n'+pgpassconf)
@@ -60,9 +62,17 @@ class Backups_auto:
                 # Creating databases to destination host script command
                 psql_command = ["psql", f"-h{self.ip_destination}", f"-U{self.login_user_destination}",
                                 f"-p{self.port_destination}", f"--command=  create database {self.destination_db_name} ;"]
+                
                 # Doing backups from sources hosts script command
-                pgdump_command_synergy = ["pg_dump", f"--host={self.ip_origin_synergy}", f"--port={self.global_port}",
-                                          f"--username={self.prd_user}",  f"--dbname={self.name_db_backup}", "-O", "-x", "--verbose", "--format=c", f"--file={dir_backup}"]
+                if self.server == 215:
+
+                    pgdump_command_synergy = ["pg_dump", f"--host={self.ip_origin_synergy}", f"--port={self.global_port}",
+                                              f"--username={self.prd_user}",  f"--dbname={self.name_db_backup}", "-O", "-x","--exclude-table=public.auditlog_logentry", "--verbose", "--format=c", f"--file={dir_backup}"]
+                else: 
+                     pgdump_command_synergy = ["pg_dump", f"--host={self.ip_origin_synergy}", f"--port={self.global_port}",
+                                              f"--username={self.prd_user}",  f"--dbname={self.name_db_backup}", "-O", "-x", "--verbose", "--format=c", f"--file={dir_backup}"]
+                
+                
                 # Restoring production backup to hosts script command
                 pg_restore_command = ["pg_restore", f"--host={self.ip_destination}", f"--username={self.login_user_destination}",
                                       f"--port={self.port_destination}",  f"--dbname={self.destination_db_name}", "--verbose", f"{dir_backup}"]
@@ -79,3 +89,9 @@ class Backups_auto:
 
         except Exception as error:
             return error
+
+
+
+
+
+
