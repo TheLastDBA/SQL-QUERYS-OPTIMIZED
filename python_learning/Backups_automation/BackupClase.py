@@ -60,8 +60,7 @@ class Backups_auto:
                     pgpass_file.write('\n'+pgpassconf)
 
                 # Creating databases to destination host script command
-                psql_command = ["psql", f"-h{self.ip_destination}", f"-U{self.login_user_destination}",
-                                f"-p{self.port_destination}", f"--command=  create database {self.destination_db_name} ;"]
+                psql_command = ["psql",f"-h{self.ip_destination}", f"-U{self.login_user_destination}",f"-p{self.port_destination}", "-dpostgres","-c",f"create database {self.destination_db_name}"]
                 
                 # Doing backups from sources hosts script command
                 if self.server == 215:

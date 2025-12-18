@@ -51,6 +51,18 @@ import BackupClase
 # print(backup.backup_maker())
 
 
+#.111
+backup = BackupClase.Backups_auto(ip_destination="10.1.2.111",
+                      port_destination="5431",
+                      login_user_destination="didieracuna",
+                      name_db_backup="balanceTecnoIFRS",
+                      password_destination="Tecnoglass*2025-1",
+                      destination_db_name="balanceTecnoIFRS_18122025_1",
+                      server=60)
+
+print(backup.backup_maker())
+
+
 
 
 #pg_dump --host=10.1.2.215 --port=5431 --username="didier.acuna" --dbname="talento_humano" -O -x --exclude-table=public.auditlog_logentry --verbose --format=c --file="D:\Backups_devs\tlh_file_.dump"
