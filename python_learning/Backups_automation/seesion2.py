@@ -1,12 +1,14 @@
 import BackupClase
-
+import dotenv
+from os import getenv
+dotenv.load_dotenv(dotenv_path=r"C:\Users\didier.acuna\git-repos\python_learning\Backups_automation\.env")
 
 # #Carlos visbal
 # backup = BackupClase.Backups_auto(ip_destination="10.0.64.238",
 #                       port_destination="5432",
 #                       login_user_destination="postgres",
 #                       name_db_backup="services_web_api",
-#                       password_destination="test1234",
+#                       password_destination=getenv("car_pwd"),
 #                       destination_db_name="services_web_api_15122025",
 #                       server=215)
 
@@ -19,7 +21,7 @@ import BackupClase
 #                       port_destination="5433",
 #                       login_user_destination="postgres",
 #                       name_db_backup="access_control",
-#                       password_destination="123456",
+#                       password_destination=getenv("ari_pwd"),
 #                       destination_db_name="access_control_15122025_1",
 #                       server=215)
 
@@ -31,7 +33,7 @@ import BackupClase
 #                       port_destination="5432",
 #                       login_user_destination="manuel",
 #                       name_db_backup="access_control",
-#                       password_destination="123456",
+#                       password_destination=getenv("man_pwd"),
 #                       destination_db_name="access_control_15122025_1",
 #                       server=215)
 
@@ -44,7 +46,7 @@ import BackupClase
 #                       port_destination="5432",
 #                       login_user_destination="didier.acuna",
 #                       name_db_backup="services_web_api",
-#                       password_destination="Tecnoglass*2025-1",
+#                       password_destination=getenv("pwd_164"),
 #                       destination_db_name="service_web_api_16_12_2025",
 #                       server=215)
 
@@ -56,7 +58,7 @@ backup = BackupClase.Backups_auto(ip_destination="10.1.2.111",
                       port_destination="5431",
                       login_user_destination="didieracuna",
                       name_db_backup="balanceTecnoIFRS",
-                      password_destination="Tecnoglass*2025-1",
+                      password_destination=getenv("pwd_111"),
                       destination_db_name="balanceTecnoIFRS_18122025_1",
                       server=60)
 
@@ -65,6 +67,5 @@ print(backup.backup_maker())
 
 
 
-#pg_dump --host=10.1.2.215 --port=5431 --username="didier.acuna" --dbname="talento_humano" -O -x --exclude-table=public.auditlog_logentry --verbose --format=c --file="D:\Backups_devs\tlh_file_.dump"
 
 
