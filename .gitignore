@@ -42,7 +42,7 @@ ENV/
 *.sqlite3
 *.db
 *.dump
-*.sql
+
 
 # ======================================
 # COMPILADOS / BUILD SYSTEMS
