@@ -454,3 +454,77 @@ SELECT  [CONSECUTIVO]
       ,[bulk_block]
   FROM [Mobiliaria_carpintero_wh].[bronze].[base_dato_salida_dwh];
 
+
+
+
+
+
+
+  -- Gold layer
+
+  -- calculate the  initial inventory  (UpToDate)
+
+   create or alter view gold.inventarioinicial as select cast(SUM(InventarioInicial) as int) as InventarioInicial, sum(InventarioActual) as cant_productos_actual from [silver].[base_dato_actual_vw]; 
+
+ 
+
+
+ -- get total cost of inventory
+
+  CREATE OR ALTER VIEW gold.costo_inventario_inicial as 
+  -- query to get the most recently products' price
+  WITH precio_referencia as ( select DISTINCT [REFERENCIA] , [FECHA],[PRECIO CON IVA],[CANTIDAD] , 
+  ROW_NUMBER() over(partition by referencia order by fecha asc)  as max_fecha from [silver].[base_dato_entrada_vw] )
+  
+   ,max_ref as (
+   select referencia,MAX(max_fecha) as mxs from precio_referencia group by referencia
+   )
+
+   select--  mx.referencia,pr.[PRECIO CON IVA], pr.fecha, mx.mxs, pr.max_fecha --, sum(slv.InventarioInicial)  as InventarioInicial , 
+  sum( (slv.InventarioInicial * [PRECIO CON IVA])) AS costo_inventario_inicial-- , sum(slv.InventarioInicial) as InventarioInicial
+   from max_ref  as mx left join precio_referencia as pr on mx.mxs = pr.max_fecha and mx.referencia = pr.referencia
+   INNER  join [silver].[base_dato_actual_vw] as slv on slv.Referencia = mx.referencia; 
+
+
+
+
+   -- Get total stock buy inbound by most recently buy 
+CREATE OR ALTER VIEW gold.cantidad_entradas_by_lasDate as 
+   WITH cantidad_view as (
+select  FECHA, REFERENCIA,CANTIDAD, [PRECIO CON IVA] , row_number() over(partition by REFERENCIA order by FECHA desc) AS position -- , SUM(CANTIDAD) as total_entradas 
+from [silver].[base_dato_entrada_vw]  ) 
+
+select sum(CANTIDAD) as cantidad_entrada, SUM([PRECIO CON IVA]) AS money_total from cantidad_view where position = 1; 
+
+
+CREATE  or alter VIEW gold.cantidad_salidas_prices_total as 
+select cast(sum(CANTIDAD) as numeric(10,2)) as salidas_cantidad, sum([COSTO TOTAL SALIDA]) as costo_total_salida from [silver].[base_dato_salida_vw];
+
+
+CREATE or alter VIEW gold.stock_minimo_maximo_seguridad_cant_products as 
+
+-- CALCULATE MINIMUM STOCK BY PRODUCTS
+-- tome la bd salida porque es lo que mas se asemeja a la cantidad de compras por dia y consumo de materiales por dia
+with promedio as (
+select REFERENCIA, cast ( avg(CANTIDAD) as numeric(10,2))as promedio_consumo from [silver].[base_dato_salida_vw] group by REFERENCIA), stock_minimo as (
+
+select promedio.REFERENCIA,promedio.promedio_consumo,(3 /*tiempo de entrega*/ * promedio.promedio_consumo) as STOCK_MINIMO , bda.InventarioActual as cantidad_producto
+from promedio inner join silver.base_dato_actual_vw as bda on bda.Referencia = promedio.REFERENCIA ) 
+
+
+select REFERENCIA, STOCK_MINIMO, (STOCK_MINIMO*2) AS STOCK_MAXIMO,( STOCK_MINIMO + ((7 /*tiempo de retraso*/-3 /*tiempo de entrega*/) *promedio_consumo ) ) as STOCK_DE_SEGURIDAD , cantidad_producto FROM stock_minimo;
+
+
+-- STOCK MAXIMO 
+ 
+
+
+
+
+
+
+
+
+
+
+
