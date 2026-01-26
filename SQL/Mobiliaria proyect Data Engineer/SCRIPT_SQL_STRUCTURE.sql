@@ -508,14 +508,15 @@ CREATE or alter VIEW gold.stock_minimo_maximo_seguridad_cant_products as
 with promedio as (
 select REFERENCIA, cast ( avg(CANTIDAD) as numeric(10,2))as promedio_consumo from [silver].[base_dato_salida_vw] group by REFERENCIA), stock_minimo as (
 
-select promedio.REFERENCIA,promedio.promedio_consumo,(3 /*tiempo de entrega*/ * promedio.promedio_consumo) as STOCK_MINIMO , bda.InventarioActual as cantidad_producto
+select promedio.REFERENCIA,promedio.promedio_consumo,(3 /*tiempo de entrega*/ * promedio.promedio_consumo) as STOCK_MINIMO , bda.InventarioActual as cantidad_producto,bda.CantidadEntrada,bda.CantidadSalida,bda.[CostoTotal]
 from promedio inner join silver.base_dato_actual_vw as bda on bda.Referencia = promedio.REFERENCIA ) 
 
 
-select REFERENCIA, STOCK_MINIMO, (STOCK_MINIMO*2) AS STOCK_MAXIMO,( STOCK_MINIMO + ((7 /*tiempo de retraso*/-3 /*tiempo de entrega*/) *promedio_consumo ) ) as STOCK_DE_SEGURIDAD , cantidad_producto FROM stock_minimo;
+select REFERENCIA, STOCK_MINIMO, (STOCK_MINIMO*2) AS STOCK_MAXIMO,( STOCK_MINIMO + ((7 /*tiempo de retraso*/-3 /*tiempo de entrega*/) *promedio_consumo ) ) as STOCK_DE_SEGURIDAD , cantidad_producto,CantidadEntrada,CantidadSalida,[CostoTotal] FROM stock_minimo;
 
 
 -- STOCK MAXIMO 
+-- End 
  
 
 
