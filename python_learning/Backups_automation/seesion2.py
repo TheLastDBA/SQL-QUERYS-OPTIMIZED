@@ -16,16 +16,16 @@ dotenv.load_dotenv(dotenv_path=r"C:\Users\didier.acuna\git-repos\python_learning
 
 
 
-# #Ariel Perez
-# backup = BackupClase.Backups_auto(ip_destination="10.1.132.74",
-#                       port_destination="5433",
-#                       login_user_destination="postgres",
-#                       name_db_backup="access_control",
-#                       password_destination=getenv("ari_pwd"),
-#                       destination_db_name="access_control_15122025_1",
-#                       server=215)
+#Ariel Perez
+backup = BackupClase.Backups_auto(ip_destination="10.1.132.74",
+                      port_destination="5433",
+                      login_user_destination="postgres",
+                      name_db_backup="talento_humano",
+                      password_destination=getenv("ari_pwd"),
+                      destination_db_name="talento_humano_28012026",
+                      server=215)
 
-# print(backup.backup_maker())
+print(backup.backup_maker())
 
 
 #Manuel Rodriguez
@@ -53,16 +53,16 @@ dotenv.load_dotenv(dotenv_path=r"C:\Users\didier.acuna\git-repos\python_learning
 # print(backup.backup_maker())
 
 
-#.111
-backup = BackupClase.Backups_auto(ip_destination="10.1.2.111",
-                      port_destination="5431",
-                      login_user_destination="didieracuna",
-                      name_db_backup="balanceTecnoIFRS",
-                      password_destination=getenv("pwd_111"),
-                      destination_db_name="balanceTecnoIFRS_18122025_1",
-                      server=60)
+# #.111
+# backup = BackupClase.Backups_auto(ip_destination="10.1.2.111",
+#                       port_destination="5431",
+#                       login_user_destination="didieracuna",
+#                       name_db_backup="balanceTecnoIFRS_1",
+#                       password_destination=getenv("pwd_111"),
+#                       destination_db_name="balanceTecnoIFRS_18122025_1",
+#                       server=60)
 
-print(backup.backup_maker())
+# print(backup.backup_maker())
 
 
 
